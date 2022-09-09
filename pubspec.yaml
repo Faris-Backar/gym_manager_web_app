@@ -9,9 +9,17 @@ environment:
   sdk: ">=2.17.6 <3.0.0"
 dependencies:
 
+  bloc: ^8.1.0
   cupertino_icons: ^1.0.2
+  firebase_auth: ^3.7.0
+  firebase_core: ^1.21.1
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.1
+  flutter_svg: ^1.1.4
+  meta: ^1.7.0
+  responsive_builder: ^0.4.3
+  shared_preferences: ^2.0.15
   sizer: ^2.0.15
 
 dev_dependencies:

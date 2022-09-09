@@ -1,12 +1,16 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sizer/sizer.dart';
 import 'package:gym_manager_web_app/core/resources/style_resources.dart';
+import 'package:gym_manager_web_app/domain/model/auth_model.dart';
+import 'package:gym_manager_web_app/presentation/bloc/auth/auth_bloc.dart';
 import 'package:gym_manager_web_app/presentation/screens/home_screen.dart';
 import 'package:gym_manager_web_app/presentation/widgets/form_text_field_widget.dart';
-import 'package:sizer/sizer.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const routeName = '/loginScreen';
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,6 +20,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordVisible = false;
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     log('1sp=> ${1.sp}, 1h=>${1.h} 1w=>${1.w}');
@@ -25,43 +31,70 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Card(
           elevation: 5.0,
           child: Container(
-              height: 80.h,
-              width: 40.w,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                color: StyleResorces.accentColor,
-              ),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                    radius: 10.h,
-                    backgroundColor: StyleResorces.accentColor,
-                    foregroundImage: const AssetImage(
-                      'assets/images/logo.png',
-                    ),
+            height: 80.h,
+            width: 40.w,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: StyleResorces.accentColor,
+            ),
+            child: Column(
+              children: [
+                Container(
+                  height: 18.h,
+                  width: 18.h,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
                   ),
-                  Text(
-                    'Power House',
-                    style: TextStyle(
-                      color: StyleResorces.shadedText,
-                      fontSize: 4.40.sp,
-                    ),
+                  child: SvgPicture.asset(
+                    'assets/svgs/logo.svg',
                   ),
-                  SizedBox(
-                    height: 2.h,
+                ),
+                SizedBox(
+                  height: 1.h,
+                ),
+                Text(
+                  'Power House',
+                  style: TextStyle(
+                    color: StyleResorces.shadedText,
+                    fontSize: 4.40.sp,
                   ),
-                  Text(
-                    'Login Gym Manager',
-                    style: TextStyle(
-                      color: StyleResorces.scaffoldBackgroundColor,
-                      fontSize: 5.29.sp,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                Text(
+                  'Login Gym Manager',
+                  style: TextStyle(
+                    color: StyleResorces.scaffoldBackgroundColor,
+                    fontSize: 5.29.sp,
+                    fontWeight: FontWeight.w600,
                   ),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  SizedBox(
+                ),
+                SizedBox(
+                  height: 2.h,
+                ),
+                BlocListener<AuthBloc, AuthState>(
+                  listener: (context, state) {
+                    if (state is AuthError) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            state.error,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                          behavior: SnackBarBehavior.floating,
+                          backgroundColor: StyleResorces.accentColor,
+                        ),
+                      );
+                    }
+                    if (state is AuthSucess) {
+                      Navigator.of(context).pushNamed(HomeScreen.routeName);
+                    }
+                  },
+                  child: SizedBox(
                     width: 30.w,
                     child: Form(
                       key: _formKey,
@@ -76,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           FormTextFieldWidget(
+                            controller: usernameController,
                             isPasswordField: false,
                             hintText: 'Email Address',
                             validatorFunction: (String? value) {
@@ -97,6 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           FormTextFieldWidget(
+                            controller: passwordController,
                             isPasswordField: true,
                             hintText: 'Password',
                             suffixWidget: IconButton(
@@ -126,42 +161,52 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 5.h,
                           ),
-                          Material(
-                            color: StyleResorces.primaryColor,
-                            borderRadius: BorderRadius.circular(10),
-                            elevation: 5.0,
-                            child: InkWell(
-                              onTap: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) => const HomeScreen(),
+                          BlocBuilder<AuthBloc, AuthState>(
+                            builder: (context, state) {
+                              if (state is AuthLoading) {
+                                return const CircularProgressIndicator();
+                              }
+                              return Material(
+                                color: StyleResorces.primaryColor,
+                                borderRadius: BorderRadius.circular(10),
+                                elevation: 5.0,
+                                child: InkWell(
+                                  onTap: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      final credentials = AuthModel(
+                                          username: usernameController.text,
+                                          password: passwordController.text);
+                                      BlocProvider.of<AuthBloc>(context).add(
+                                        LoginEvent(credentials: credentials),
+                                      );
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 10.sp,
+                                    width: 30.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
                                     ),
-                                  );
-                                }
-                              },
-                              child: Container(
-                                height: 10.sp,
-                                width: 30.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                alignment: Alignment.center,
-                                child: const Text(
-                                  'Log In',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                    alignment: Alignment.center,
+                                    child: const Text(
+                                      'Log In',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
                     ),
-                  )
-                ],
-              )),
+                  ),
+                )
+              ],
+            ),
+          ),
         ),
       ),
     );

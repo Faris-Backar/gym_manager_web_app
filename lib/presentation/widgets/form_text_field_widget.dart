@@ -7,12 +7,14 @@ class FormTextFieldWidget extends StatefulWidget {
   final String? Function(String?)? validatorFunction;
   final bool isPasswordField;
   final Widget? suffixWidget;
+  final TextEditingController controller;
   const FormTextFieldWidget({
     Key? key,
     this.hintText,
     this.validatorFunction,
     required this.isPasswordField,
     this.suffixWidget,
+    required this.controller,
   }) : super(key: key);
 
   @override
@@ -23,6 +25,7 @@ class _FormTextFieldWidgetState extends State<FormTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       decoration: InputDecoration(
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(5),

@@ -1,9 +1,28 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gym_manager_web_app/core/resources/style_resources.dart';
+import 'package:gym_manager_web_app/presentation/bloc/auth/auth_bloc.dart';
+import 'package:gym_manager_web_app/presentation/screens/fees_payment_screen.dart';
+import 'package:gym_manager_web_app/presentation/screens/fees_pending_screen.dart';
+import 'package:gym_manager_web_app/presentation/screens/home_screen.dart';
 import 'package:gym_manager_web_app/presentation/screens/login_screen.dart';
+import 'package:gym_manager_web_app/presentation/screens/membership_screen.dart';
+import 'package:gym_manager_web_app/presentation/screens/report_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
-void main(List<String> args) {
+late SharedPreferences prefs;
+void main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: const FirebaseOptions(
+        apiKey: "AIzaSyDFL4K4etvVT36_yeAoNM5mTwYhfT_AtQQ",
+        appId: "1:542318597202:web:dd653f077ce405f5f5fb8b",
+        messagingSenderId: "542318597202",
+        projectId: "web-app-8f3c3"),
+  );
+  prefs = await SharedPreferences.getInstance();
   runApp(const GymManagerWebApp());
 }
 
@@ -12,16 +31,43 @@ class GymManagerWebApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Sizer(builder: (context, orientation, deviceType) {
-      return MaterialApp(
-        home: const LoginScreen(),
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            fontFamily: "Poppins",
-            colorScheme: ColorScheme.fromSwatch().copyWith(
-              primary: StyleResorces.primaryColor,
-            )),
-      );
-    });
+    return BlocProvider<AuthBloc>(
+      create: (context) => AuthBloc(),
+      child: Sizer(
+        builder: (context, orientation, deviceType) {
+          return MaterialApp(
+            home: const LoginScreen(),
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              fontFamily: "Poppins",
+              colorScheme: ColorScheme.fromSwatch().copyWith(
+                primary: StyleResorces.primaryColor,
+              ),
+              iconTheme: const IconThemeData(
+                color: Colors.white,
+              ),
+              textTheme: const TextTheme(
+                headline6: TextStyle(
+                  color: Colors.white,
+                ),
+                headline2: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            routes: {
+              LoginScreen.routeName: (context) => const LoginScreen(),
+              HomeScreen.routeName: (context) => const HomeScreen(),
+              FeesPendingScreen.routeName: (context) =>
+                  const FeesPendingScreen(),
+              FeesPaymentScreen.routeName: (context) =>
+                  const FeesPaymentScreen(),
+              MembershipScreen.routeName: (context) => const MembershipScreen(),
+              ReportScreen.routeName: (context) => const ReportScreen(),
+            },
+          );
+        },
+      ),
+    );
   }
 }
