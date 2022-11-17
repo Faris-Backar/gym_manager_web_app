@@ -8,6 +8,10 @@ class FormTextFieldWidget extends StatefulWidget {
   final bool isPasswordField;
   final Widget? suffixWidget;
   final TextEditingController controller;
+  final bool? isPasswordVisible;
+  final Color? borderColor;
+  final Color? textColor;
+  final TextInputType? textInputType;
   const FormTextFieldWidget({
     Key? key,
     this.hintText,
@@ -15,6 +19,10 @@ class FormTextFieldWidget extends StatefulWidget {
     required this.isPasswordField,
     this.suffixWidget,
     required this.controller,
+    this.isPasswordVisible,
+    this.borderColor,
+    this.textColor,
+    this.textInputType,
   }) : super(key: key);
 
   @override
@@ -25,9 +33,13 @@ class _FormTextFieldWidgetState extends State<FormTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: widget.isPasswordVisible ?? false,
       controller: widget.controller,
+      style: TextStyle(color: widget.textColor ?? Colors.black),
+      keyboardType: widget.textInputType,
       decoration: InputDecoration(
         border: OutlineInputBorder(
+          borderSide: BorderSide(color: widget.borderColor ?? Colors.black),
           borderRadius: BorderRadius.circular(5),
         ),
         hintText: widget.hintText,

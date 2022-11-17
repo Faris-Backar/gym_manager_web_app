@@ -20,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
-  bool _isPasswordVisible = false;
+  bool _isPasswordVisible = true;
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   @override
@@ -66,11 +66,11 @@ class _LoginScreenState extends State<LoginScreen> {
               'Power House',
               style: TextStyle(
                 color: StyleResorces.shadedText,
-                fontSize: Responsive.isDesktop(context) ? 4.40.sp : 10.sp,
+                fontSize: Responsive.isDesktop(context) ? 4.40.sp : 8.sp,
               ),
             ),
             SizedBox(
-              height: Responsive.isDesktop(context) ? 2.h : 12.h,
+              height: Responsive.isDesktop(context) ? 2.h : 5.h,
             ),
             Text(
               'Login Gym Manager',
@@ -115,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Email',
                         style: TextStyle(
                           color: StyleResorces.shadedText,
-                          fontSize: 4.sp,
+                          fontSize: Responsive.isDesktop(context) ? 4.sp : 8.sp,
                         ),
                       ),
                       FormTextFieldWidget(
@@ -137,21 +137,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Password',
                         style: TextStyle(
                           color: StyleResorces.shadedText,
-                          fontSize: 4.sp,
+                          fontSize: Responsive.isDesktop(context) ? 4.sp : 8.sp,
                         ),
                       ),
                       FormTextFieldWidget(
+                        isPasswordVisible: _isPasswordVisible,
                         controller: passwordController,
                         isPasswordField: true,
                         hintText: 'Password',
                         suffixWidget: IconButton(
                           icon: _isPasswordVisible
                               ? const Icon(
-                                  Icons.visibility_rounded,
+                                  Icons.visibility_off_rounded,
                                   color: StyleResorces.shadedText,
                                 )
                               : const Icon(
-                                  Icons.visibility_off_rounded,
+                                  Icons.visibility_rounded,
                                   color: StyleResorces.shadedText,
                                 ),
                           onPressed: () {
@@ -193,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               child: Container(
                                 height:
-                                    Responsive.isDesktop(context) ? 10.sp : 5.h,
+                                    Responsive.isDesktop(context) ? 10.sp : 8.h,
                                 width: Responsive.isDesktop(context)
                                     ? 30.w
                                     : double.infinity,
