@@ -175,7 +175,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       BlocBuilder<AuthBloc, AuthState>(
                         builder: (context, state) {
                           if (state is AuthLoading) {
-                            return const CircularProgressIndicator();
+                            return const Center(
+                                child: CircularProgressIndicator());
                           }
                           return Material(
                             color: StyleResorces.primaryColor,
