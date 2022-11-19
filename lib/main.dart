@@ -57,7 +57,7 @@ class GymManagerWebApp extends StatelessWidget {
                   headline2: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,
-                    fontSize: (!Responsive.isDesktop(context)) ? 4.sp : 06.sp,
+                    fontSize: (!Responsive.isDesktop(context)) ? 10.sp : 06.sp,
                   ),
                 ),
               ),

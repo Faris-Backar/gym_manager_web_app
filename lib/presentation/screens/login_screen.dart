@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gym_manager_web_app/core/resources/responsive.dart';
+import 'package:gym_manager_web_app/util/functions.dart';
 import 'package:sizer/sizer.dart';
 import 'package:gym_manager_web_app/core/resources/style_resources.dart';
 import 'package:gym_manager_web_app/domain/model/auth_model.dart';
@@ -28,11 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
     log('1sp=> ${1.sp}, 1h=>${1.h} 1w=>${1.w}');
     return Scaffold(
         backgroundColor: StyleResorces.scaffoldBackgroundColor,
-        body: Responsive.isDesktop(context)
-            ? Center(
-                child: loginCard(context),
-              )
-            : loginCard(context));
+        body: SafeArea(
+          child: Responsive.isDesktop(context)
+              ? Center(
+                  child: loginCard(context),
+                )
+              : loginCard(context),
+        ));
   }
 
   Card loginCard(BuildContext context) {
@@ -49,6 +52,11 @@ class _LoginScreenState extends State<LoginScreen> {
             Responsive.isDesktop(context) ? null : const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            !Responsive.isDesktop(context)
+                ? SizedBox(
+                    height: 10.h,
+                  )
+                : const SizedBox.shrink(),
             Container(
               height: 18.h,
               width: 18.h,
@@ -66,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
               'Power House',
               style: TextStyle(
                 color: StyleResorces.shadedText,
-                fontSize: Responsive.isDesktop(context) ? 4.40.sp : 8.sp,
+                fontSize: Responsive.isDesktop(context) ? 4.40.sp : 14.sp,
               ),
             ),
             SizedBox(
@@ -115,7 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Email',
                         style: TextStyle(
                           color: StyleResorces.shadedText,
-                          fontSize: Responsive.isDesktop(context) ? 4.sp : 8.sp,
+                          fontSize:
+                              Responsive.isDesktop(context) ? 4.sp : 14.sp,
                         ),
                       ),
                       FormTextFieldWidget(
@@ -137,7 +146,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Password',
                         style: TextStyle(
                           color: StyleResorces.shadedText,
-                          fontSize: Responsive.isDesktop(context) ? 4.sp : 8.sp,
+                          fontSize:
+                              Responsive.isDesktop(context) ? 4.sp : 14.sp,
                         ),
                       ),
                       FormTextFieldWidget(
@@ -203,11 +213,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                                 alignment: Alignment.center,
-                                child: const Text(
+                                child: Text(
                                   'Log In',
                                   style: TextStyle(
-                                    color: Colors.white,
-                                  ),
+                                      color: Colors.white,
+                                      fontSize: getResponsiveFontsSize(
+                                          desktopSize: 10.sp,
+                                          tabletSize: 12.sp,
+                                          mobileSize: 14.sp,
+                                          context: context)),
                                 ),
                               ),
                             ),

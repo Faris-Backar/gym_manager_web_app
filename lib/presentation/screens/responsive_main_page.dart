@@ -20,64 +20,66 @@ class _MembershipScreenState extends State<ResponsiveMainPage> {
       backgroundColor: StyleResorces.bgColor,
       key: _key,
       drawer: const DrawerWidget(),
-      body: Row(
-        children: [
-          if (Responsive.isDesktop(context))
-            const Expanded(
-              flex: 1,
-              child: DrawerWidget(),
-            ),
-          Expanded(
-            flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  scrollbarTheme: const ScrollbarThemeData(),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      if (!Responsive.isDesktop(context))
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.menu,
-                                size: Responsive.isTablet(context)
-                                    ? 12.sp
-                                    : 20.sp,
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (Responsive.isDesktop(context))
+              const Expanded(
+                flex: 1,
+                child: DrawerWidget(),
+              ),
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    scrollbarTheme: const ScrollbarThemeData(),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        if (!Responsive.isDesktop(context))
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.menu,
+                                  size: Responsive.isTablet(context)
+                                      ? 12.sp
+                                      : 20.sp,
+                                ),
+                                onPressed: () {
+                                  _key.currentState!.openDrawer();
+                                },
                               ),
-                              onPressed: () {
-                                _key.currentState!.openDrawer();
-                              },
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
-                            Text(
-                              'PowerHouse',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: Responsive.isTablet(context)
-                                    ? 10.sp
-                                    : 16.sp,
+                              SizedBox(
+                                width: 10.w,
                               ),
-                            ),
-                          ],
+                              Text(
+                                'PowerHouse',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: Responsive.isTablet(context)
+                                      ? 10.sp
+                                      : 16.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        SizedBox(
+                          height: 3.h,
                         ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      widget.child
-                    ],
+                        widget.child
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

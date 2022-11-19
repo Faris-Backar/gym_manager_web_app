@@ -31,120 +31,126 @@ class _MembershipScreenState extends State<MembershipScreen> {
       backgroundColor: StyleResorces.bgColor,
       key: _key,
       drawer: const DrawerWidget(),
-      body: Row(
-        children: [
-          if (Responsive.isDesktop(context))
-            const Expanded(
-              flex: 1,
-              child: DrawerWidget(),
-            ),
-          Expanded(
-            flex: 5,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Theme(
-                data: Theme.of(context).copyWith(
-                  scrollbarTheme: const ScrollbarThemeData(),
-                ),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      if (!Responsive.isDesktop(context))
-                        Row(
-                          // mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: Icon(
-                                Icons.menu,
-                                size: 20.sp,
+      body: SafeArea(
+        child: Row(
+          children: [
+            if (Responsive.isDesktop(context))
+              const Expanded(
+                flex: 1,
+                child: DrawerWidget(),
+              ),
+            Expanded(
+              flex: 5,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    scrollbarTheme: const ScrollbarThemeData(),
+                  ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        if (!Responsive.isDesktop(context))
+                          Row(
+                            // mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(
+                                  Icons.menu,
+                                  size: 20.sp,
+                                ),
+                                onPressed: () {
+                                  _key.currentState!.openDrawer();
+                                },
                               ),
-                              onPressed: () {
-                                _key.currentState!.openDrawer();
-                              },
-                            ),
-                            SizedBox(
-                              width: 10.w,
-                            ),
+                              SizedBox(
+                                width: 10.w,
+                              ),
+                              Text(
+                                'PowerHouse',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16.sp),
+                              )
+                            ],
+                          ),
+                        SizedBox(
+                          height: 3.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
-                              'PowerHouse',
+                              'Members',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
-                            )
+                                color: Colors.white,
+                                fontSize: isDesktop ? 08.sp : 16.sp,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: () => Navigator.of(context)
+                                  .pushNamed(AddMemberScreen.routeName),
+                              child: const Text('Add Member +'),
+                            ),
                           ],
                         ),
-                      SizedBox(
-                        height: 3.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Members',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: isDesktop ? 08.sp : 16.sp,
-                            ),
-                          ),
-                          ElevatedButton(
-                            onPressed: () => Navigator.of(context)
-                                .pushNamed(AddMemberScreen.routeName),
-                            child: const Text('Add Member +'),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 2.h,
-                      ),
-                      Container(
-                        height: 80.h,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: StyleResorces.secondaryColor,
+                        SizedBox(
+                          height: 2.h,
                         ),
-                        child: StickyHeader(
-                          header: Material(
-                            elevation: 5.0,
+                        Container(
+                          height: 80.h,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
                             color: StyleResorces.secondaryColor,
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(10),
-                                topRight: Radius.circular(10)),
-                            child: Container(
-                              height: 10.h,
-                              width: double.infinity,
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: stickyHeaderWidget(headerTextTheme),
-                            ),
                           ),
-                          content: Container(
-                            height: 66.h,
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 8.0),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: const BouncingScrollPhysics(),
-                              itemCount: 20,
-                              itemBuilder: (context, index) {
-                                return detailsList(textTheme,
-                                    age: "24",
-                                    memberShipType: "Full Club",
-                                    name: "Faris",
-                                    phone: "7736563740",
-                                    regNo: "001");
-                              },
+                          child: StickyHeader(
+                            header: Material(
+                              elevation: 5.0,
+                              color: StyleResorces.secondaryColor,
+                              borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(10),
+                                  topRight: Radius.circular(10)),
+                              child: Container(
+                                height: 10.h,
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 16.0),
+                                child: stickyHeaderWidget(
+                                    !Responsive.isDesktop(context)
+                                        ? headerTextTheme!
+                                            .copyWith(fontSize: 12.sp)
+                                        : headerTextTheme),
+                              ),
+                            ),
+                            content: Container(
+                              height: 66.h,
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 8.0),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const BouncingScrollPhysics(),
+                                itemCount: 20,
+                                itemBuilder: (context, index) {
+                                  return detailsList(textTheme,
+                                      age: "24",
+                                      memberShipType: "Full Club",
+                                      name: "Faris",
+                                      phone: "7736563740",
+                                      regNo: "001");
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
