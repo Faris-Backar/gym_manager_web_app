@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gym_manager_web_app/core/resources/responsive.dart';
 import 'package:gym_manager_web_app/core/resources/style_resources.dart';
 import 'package:gym_manager_web_app/presentation/screens/responsive_main_page.dart';
 import 'package:gym_manager_web_app/presentation/widgets/form_text_field_widget.dart';
@@ -43,7 +44,13 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         children: [
           Text(
             'Add Member',
-            style: Theme.of(context).textTheme.headline6,
+            style: (Responsive.isDesktop(context))
+                ? Theme.of(context).textTheme.headline6
+                : TextStyle(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: StyleResorces.accentColor,
+                  ),
           ),
           SizedBox(
             height: 2.h,

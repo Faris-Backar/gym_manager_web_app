@@ -51,13 +51,9 @@ class GymManagerWebApp extends StatelessWidget {
                   color: Colors.white,
                 ),
                 textTheme: TextTheme(
-                  headline6: TextStyle(
-                      color: Colors.white,
-                      fontSize: (!Responsive.isDesktop(context))
-                          ? (Responsive.isMobile(context))
-                              ? 6.sp
-                              : 15.sp
-                          : 5.sp),
+                  headline6: const TextStyle(
+                    color: Colors.white,
+                  ),
                   headline2: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w400,

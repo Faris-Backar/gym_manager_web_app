@@ -40,12 +40,14 @@ class _MembershipScreenState extends State<ResponsiveMainPage> {
                     children: [
                       if (!Responsive.isDesktop(context))
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             IconButton(
                               icon: Icon(
                                 Icons.menu,
-                                size: 20.sp,
+                                size: Responsive.isTablet(context)
+                                    ? 12.sp
+                                    : 20.sp,
                               ),
                               onPressed: () {
                                 _key.currentState!.openDrawer();
@@ -57,8 +59,12 @@ class _MembershipScreenState extends State<ResponsiveMainPage> {
                             Text(
                               'PowerHouse',
                               style: TextStyle(
-                                  color: Colors.white, fontSize: 16.sp),
-                            )
+                                color: Colors.white,
+                                fontSize: Responsive.isTablet(context)
+                                    ? 10.sp
+                                    : 16.sp,
+                              ),
+                            ),
                           ],
                         ),
                       SizedBox(

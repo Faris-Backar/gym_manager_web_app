@@ -31,3 +31,17 @@ double getHeaderContentFontSize(BuildContext context) {
     return 17.sp;
   }
 }
+
+double getResponsiveFontsSize(
+    {required double desktopSize,
+    required double tabletSize,
+    required double mobileSize,
+    required BuildContext context}) {
+  if (Responsive.isDesktop(context)) {
+    return desktopSize;
+  } else if (Responsive.isMobile(context)) {
+    return mobileSize;
+  } else {
+    return tabletSize;
+  }
+}

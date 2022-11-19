@@ -42,6 +42,10 @@ class _FormTextFieldWidgetState extends State<FormTextFieldWidget> {
           borderSide: BorderSide(color: widget.borderColor ?? Colors.black),
           borderRadius: BorderRadius.circular(5),
         ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: widget.borderColor ?? Colors.black),
+          borderRadius: BorderRadius.circular(5),
+        ),
         hintText: widget.hintText,
         hintStyle: const TextStyle(
           color: StyleResorces.shadedText,
